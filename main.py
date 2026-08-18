@@ -12,7 +12,6 @@ if __name__ == "__main__":
     register_user("Alishba", r"C:\Users\Latitude\Desktop\FYP\user_folder\imgs.jpeg", app)
 
     db_embeddings = load_all_embeddings()
-
     cap = cv2.VideoCapture(0)
     print("Press 'q' to quit.")
 

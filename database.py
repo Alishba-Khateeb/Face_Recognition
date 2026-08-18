@@ -4,9 +4,9 @@ from datetime import datetime
 
 DB_PATH = "attendance.db"
 
-# -------------------------------
+
 # Initialize the database and tables
-# -------------------------------
+
 def initialize_db(db_path=DB_PATH):
     with sqlite3.connect(db_path) as conn:
         c = conn.cursor()
@@ -33,9 +33,9 @@ def initialize_db(db_path=DB_PATH):
 
         conn.commit()
 
-# -------------------------------
+
 # Insert a new user and their embedding
-# -------------------------------
+
 def insert_user(name, embedding, db_path=DB_PATH):
     embedding_blob = pickle.dumps(embedding)  # Serialize to BLOB
     with sqlite3.connect(db_path) as conn:
@@ -43,18 +43,17 @@ def insert_user(name, embedding, db_path=DB_PATH):
         c.execute('INSERT INTO users (name, embedding) VALUES (?, ?)', (name, embedding_blob))
         conn.commit()
 
-# -------------------------------
 # Check if user already exists by name
-# -------------------------------
+
 def user_exists(name, db_path=DB_PATH):
     with sqlite3.connect(db_path) as conn:
         c = conn.cursor()
         c.execute('SELECT COUNT(*) FROM users WHERE name = ?', (name,))
         return c.fetchone()[0] > 0
 
-# -------------------------------
+
 # Load all user embeddings from the database
-# -------------------------------
+
 def load_all_embeddings(db_path=DB_PATH):
     embeddings_dict = {}
     with sqlite3.connect(db_path) as conn:
@@ -66,9 +65,8 @@ def load_all_embeddings(db_path=DB_PATH):
             embeddings_dict[user_id] = {"name": name, "embedding": emb}
     return embeddings_dict
 
-# -------------------------------
 # Mark attendance (only once per user per day)
-# -------------------------------
+
 def mark_attendance(user_id, db_path=DB_PATH):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     today_date = datetime.now().strftime("%Y-%m-%d")
